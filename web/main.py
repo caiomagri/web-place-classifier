@@ -3,6 +3,10 @@ import requests
 
 
 def main():
+    st.set_page_config(
+        page_title="Place Classifier",
+    )
+
     st.title("Place Classifier")
 
     st.write(
@@ -23,6 +27,17 @@ def main():
         9: 'Cozinha',
     })
 
+    with st.sidebar:
+        st.title("Image example")
+        st.image("/app/web/src/images/airport.jpg", caption='Image airport example')
+        with open("/app/web/src/images/airport.jpg", "rb") as file:
+            st.download_button(
+                label="Download Image Example",
+                data=file,
+                file_name="airport.png",
+                mime="image/jpg"
+            )
+
     uploaded_file = st.file_uploader("Choose a image to classify", type=["jpg", "png", "jpeg"])
 
     if uploaded_file is not None:
@@ -41,11 +56,11 @@ def main():
                 description = data.get("description")
                 st.header(description)
                 st.json(response.json())
+                st.success('Done!')
 
             else:
                 st.write("Error: ", response.status_code)
-
-            st.success('Done!')
+                st.error('Error!')
 
 
 if __name__ == '__main__':
