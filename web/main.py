@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 
@@ -47,7 +48,7 @@ def main():
         st.image(bytes_data, caption='Image to classify')
 
         with st.spinner(text="Processing..."):
-            url = "https://place-classifier-api.onrender.com/predict"
+            url = os.getenv("CLASSIFIER_API_URL", "localhost:8000/predict")
 
             response = requests.post(url, files={"file": bytes_data})
 
